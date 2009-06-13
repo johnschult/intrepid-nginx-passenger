@@ -33,20 +33,6 @@ Setting up a deployment user
 
     adduser deploy
 
-
-<input type='checkbox'/> **OPTIONAL:** Enable the `sudo` group
-
-    visudo
-    
-    ...
-    %sudo ALL=NOPASSWD: ALL
-    ...
-
-<input type='checkbox'/> **OPTIONAL:** Add the `deploy` user to the `sudo` group
-
-    usermod -G sudo -a deploy
-
-
 <input type='checkbox'/> Create the `.ssh` directory for the `deploy` user
 
     su - -c "mkdir .ssh;chmod 700 .ssh" deploy
@@ -61,6 +47,22 @@ applications. Add as many as you need.
 your applications.
     
     su - -c "mkdir ~/apps" deploy
+
+###Optional
+If the `deploy` user will need to execute `sudo` using Capistrano or otherwise, do the following:
+
+<input type='checkbox'/> Enable the `sudo` group
+
+    visudo
+    
+    ...
+    %sudo ALL=NOPASSWD: ALL
+    ...
+
+<input type='checkbox'/> Add the `deploy` user to the `sudo` group
+
+    usermod -G sudo -a deploy
+
 
 Installing Git
 --------------
@@ -120,6 +122,8 @@ _Note that this also installs Rails and a bunch of other gems..._
 Installing Nginx
 ----------------
 
+<input type='checkbox'/> Install the `nginx` package
+
     apt-get install nginx -y
     
 <input type='checkbox'/> Test the web server and remove the `default` site
@@ -136,7 +140,7 @@ Installing the Passenger Nginx module
 
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-<input type='checkbox'/> Select option 1 and download/compile/install Nginx and wait for it to finish
+<input type='checkbox'/> Select option 1, download/compile/install Nginx and wait for it to finish
     
     ...
     Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
@@ -145,11 +149,11 @@ Installing the Passenger Nginx module
 
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-<input type='checkbox'/> Select option 2 to customize Nginx install. When installation script ask, "Where is your Nginx source code located?" Enter:
+<input type='checkbox'/> Select option 2 to customize the Nginx install. When the installer asks, "Where is your Nginx source code located?", enter:
 
     /tmp/nginx-0.6.36
     
-<input type='checkbox'/> On, extra arguments to pass to configure script add
+<input type='checkbox'/> On, extra arguments to pass to configure script add:
 
     --with-http_ssl_module
 
