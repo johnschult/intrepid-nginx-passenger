@@ -34,7 +34,7 @@ Setting up a deployment user
     adduser deploy
 
 
-<input type='checkbox'/> *OPTIONAL:* Enable the `sudo` group
+<input type='checkbox'/> **OPTIONAL:** Enable the `sudo` group
 
     visudo
     
@@ -42,7 +42,7 @@ Setting up a deployment user
     %sudo ALL=NOPASSWD: ALL
     ...
 
-<input type='checkbox'/> *OPTIONAL:* Add the `deploy` user to the `sudo` group
+<input type='checkbox'/> **OPTIONAL:** Add the `deploy` user to the `sudo` group
 
     usermod -G sudo -a deploy
 
