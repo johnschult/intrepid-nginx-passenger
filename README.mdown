@@ -86,9 +86,31 @@ _Note that this also installs Rails and a bunch of other gems..._
     cd ruby-enterprise-1.8.6-20090610/
     ./installer
 
-Add Ruby to the system path
+Create links to the new binaries in the system path. This avoids issues with `sudo` secure paths.
+  
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/erb /usr/local/bin/erb
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/gem /usr/local/bin/gem
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/irb /usr/local/bin/irb
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/rails /usr/local/bin/rails
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/rake /usr/local/bin/rake
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/rdoc /usr/local/bin/rdoc
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/ri /usr/local/bin/ri
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/ruby /usr/local/bin/ruby
 
-    echo "export PATH=/opt/ruby-enterprise-1.8.6-20090201/bin:$PATH" >> /etc/profile && . /etc/profile
+Tell `gem` not to create documentation, ever.
+
+    vi /root/.gemrc
+    
+    ---
+    :sources:
+    - http://gems.rubyforge.org
+    - http://gems.github.com
+    gem: --no-ri --no-rdoc
+
+Copy the `.gemrc` file for the `deploy` user
+    
+    cp /root/.gemrc ~deploy/.gemrc
+    chown deploy:deploy ~deploy/.gemrc
 
 Installing Nginx
 ----------------
