@@ -33,7 +33,8 @@ Setting up a deployment user
 
     adduser deploy
 
-<input type='checkbox'/> Enable the `sudo` group
+
+<input type='checkbox'/> *OPTIONAL:* Enable the `sudo` group
 
     visudo
     
@@ -41,9 +42,10 @@ Setting up a deployment user
     %sudo ALL=NOPASSWD: ALL
     ...
 
-<input type='checkbox'/> Add the `deploy` user to the `sudo` group
+<input type='checkbox'/> *OPTIONAL:* Add the `deploy` user to the `sudo` group
 
     usermod -G sudo -a deploy
+
 
 <input type='checkbox'/> Create the `.ssh` directory for the `deploy` user
 
