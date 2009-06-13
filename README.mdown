@@ -2,6 +2,8 @@ Ubuntu Intrepid (8.10) with Nginx and Passenger
 ===============================================
 *This recipe assumes you are logged in as the root user on a clean Ubuntu 8.10 server!*
 
+*Use and abuse this at your own peril. I wrote this in a hurry :-)*
+
 Updating the server
 -------------------
 
