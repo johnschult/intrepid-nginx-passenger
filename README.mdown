@@ -5,18 +5,18 @@ Ubuntu Intrepid (8.10) with Nginx and Passenger
 Updating the server
 -------------------
 
-####Update/Upgrade the server packages
+Update/Upgrade the server packages
 
     apt-get update
     apt-get upgrade
 
-####Configure the timezone and update the time
+Configure the timezone and update the time
 
     dpkg-reconfigure tzdata
     apt-get install ntp -y
     ntpdate ntp.ubuntu.com
 
-####Edit SSH daemon configuration
+Edit SSH daemon configuration
 
     vi /etc/ssh/sshd_config
 
@@ -29,11 +29,11 @@ Updating the server
 Setting up a deployment user
 ----------------------------
 
-####Add deploy user
+Add deploy user
 
     adduser deploy
 
-####Enable sudo group
+Enable sudo group
 
     visudo
     
@@ -41,34 +41,34 @@ Setting up a deployment user
     %sudo ALL=NOPASSWD: ALL
     ...
 
-####Add deploy user to sudo group
+Add deploy user to sudo group
 
     usermod -G sudo -a deploy
 
-####Create the .ssh directory for the deploy user
+Create the .ssh directory for the deploy user
 
     su - -c "mkdir .ssh;chmod 700 .ssh" deploy
 
-####Add a SSH public key to the deploy user
+Add a SSH public key to the deploy user
 
     su - -c "vi .ssh/authorized_keys" deploy
     su - -c "chmod 600 .ssh/authorized_keys" deploy
     
-####Create the apps directory for the deploy user
+Create the apps directory for the deploy user
     
     su - -c "mkdir apps" deploy
 
 Installing Git
 --------------
 
-####Install the git-core package
+Install the git-core package
 
     apt-get install git-core -y
 
 Installing MySQL
 ----------------
 
-####Install the mysql-server and dev packages
+Install the mysql-server and dev packages
 
     apt-get install mysql-server libmysqlclient15-dev -y
     
@@ -84,7 +84,7 @@ _Note that this also installs Rails and a bunch of other gems..._
     cd ruby-enterprise-1.8.6-20090610/
     ./installer
 
-####Add Ruby to the system path
+Add Ruby to the system path
 
     echo "export PATH=/opt/ruby-enterprise-1.8.6-20090201/bin:$PATH" >> /etc/profile && . /etc/profile
 
@@ -93,7 +93,7 @@ Installing Nginx
 
     apt-get install nginx -y
     
-####Test the web server and remove the default site
+Test the web server and remove the default site
 
     /etc/init.d/nginx start
     curl http://localhost
@@ -103,31 +103,33 @@ Installing Nginx
 Installing the Passenger Nginx module
 -------------------------------------
 
-####Start the Passenger Nginx module installation
+Start the Passenger Nginx module installation
+
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-####Select option 1 and download/compile/install Nginx and wait for it to finish
+Select option 1 and download/compile/install Nginx and wait for it to finish
     
     ...
     Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
 
-####Start the Passenger Nginx module installation (again)
+Start the Passenger Nginx module installation (again)
+
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-####Select option 2 to customize Nginx install. When installation script ask, "Where is your Nginx source code located?" Enter:
+Select option 2 to customize Nginx install. When installation script ask, "Where is your Nginx source code located?" Enter:
 
     /tmp/nginx-0.6.36
     
-####On, extra arguments to pass to configure script add
+On, extra arguments to pass to configure script add
 
     --with-http_ssl_module
 
-####Wait for the Passenger Nginx module installation to finish
+Wait for the Passenger Nginx module installation to finish
 
     ...
     Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
     
-####Edit the Nginx configuration from the apt-get install
+Edit the Nginx configuration from the apt-get install
 
     vi /etc/nginx/nginx.conf
         
@@ -138,7 +140,7 @@ Installing the Passenger Nginx module
       ...
     }
 
-####Edit the Nginx init.d script from the apt-get install
+Edit the Nginx init.d script from the apt-get install
         
     vi /etc/init.d/nginx
   
@@ -146,12 +148,12 @@ Installing the Passenger Nginx module
     DAEMON=/opt/nginx/sbin/nginx
     ...
   
-####Link the Nginx configuration to the apt-get confguration
+Link the Nginx configuration to the apt-get confguration
     
     rm /opt/nginx/conf/nginx.conf
     ln -s /etc/nginx/nginx.conf /opt/nginx/conf/nginx.conf
 
-####Start Nginx
+Start Nginx
 
     /etc/init.d/nginx start
 
@@ -168,7 +170,7 @@ Deploying a Rack application
       passenger_enabled on;
     }
 
-####Save the file and reload Nginx
+Save the file and reload Nginx
     
     /etc/init.d/nginx reload
     
