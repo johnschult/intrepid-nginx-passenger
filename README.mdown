@@ -29,7 +29,7 @@ Edit SSH daemon configuration
 Setting up a deployment user
 ----------------------------
 
-Add the `deploy` user
+Add the `deploy` user. You should use this user in your Capistrano recipes.
 
     adduser deploy
 
@@ -55,7 +55,8 @@ applications. Add as many as you need.
     su - -c "vi .ssh/authorized_keys" deploy
     su - -c "chmod 600 .ssh/authorized_keys" deploy
     
-Create the `apps` directory for the `deploy` user
+Create the `apps` directory for the `deploy` user. This is the root directory to use for deploying
+your applications.
     
     su - -c "mkdir ~/apps" deploy
 
@@ -69,7 +70,7 @@ Install the `git-core` package
 Installing MySQL
 ----------------
 
-Install the `mysql-server` and dev packages
+Install the `mysql-server` and `libmysqlclient15-dev` packages
 
     apt-get install mysql-server libmysqlclient15-dev -y
     
