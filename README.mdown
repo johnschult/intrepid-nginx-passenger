@@ -184,7 +184,9 @@ Start Nginx
 Deploying a Rack application
 ----------------------------
 
-    vi /etc/nginx/sites-available/001-www.yourhost.com
+Create the new virtual configuration
+
+    vi /etc/nginx/sites-available/www.yourhost.com
 
     # your application configuration
     server {
@@ -193,6 +195,10 @@ Deploying a Rack application
       root /home/deploy/apps/yourapp/public;   # <--- be sure to point to 'public'!
       passenger_enabled on;
     }
+
+Enable the site
+
+    ln -s /etc/nginx/sites-available/www.yourhost.com /etc/nginx/sites-enabled/001-www.yourhost.com
 
 Save the file and reload Nginx
     
