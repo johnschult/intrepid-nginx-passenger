@@ -1,16 +1,33 @@
-Changes to Ubuntu 8.10 (Intrepid)
------------------------------------
+Ubuntu Intrepid (8.10) with Nginx and Passenger
+===============================================
+*This recipe assumes you are logged in as the root user on a clean Ubuntu 8.10 server!*
 
-####Update/Upgrade the server installation
+Updating the server
+-------------------
+
+####Update/Upgrade the server packages
 
     apt-get update
     apt-get upgrade
 
 ####Configure the timezone and update the time
 
-    sudo dpkg-reconfigure tzdata
-    sudo apt-get install ntp -y
-    sudo ntpdate ntp.ubuntu.com
+    dpkg-reconfigure tzdata
+    apt-get install ntp -y
+    ntpdate ntp.ubuntu.com
+
+####Edit SSH daemon configuration
+
+    vi /etc/ssh/sshd_config
+
+    ...
+    PermitRootLogin no
+    ...
+    PasswordAuthentication no
+    ...
+
+Setting up a deployment user
+----------------------------
 
 ####Add deploy user
 
@@ -20,18 +37,13 @@ Changes to Ubuntu 8.10 (Intrepid)
 
     visudo
     
+    ...
     %sudo ALL=NOPASSWD: ALL
+    ...
 
 ####Add deploy user to sudo group
 
     usermod -G sudo -a deploy
-
-####Edit SSH daemon configuration
-
-    vi /etc/ssh/sshd_config
-    
-    PermitRootLogin no
-    PasswordAuthentication no
 
 ####Create the .ssh directory for the deploy user
 
@@ -66,7 +78,6 @@ Installing Ruby Enterprise Edition and Passenger
 _Note that this also installs Rails and a bunch of other gems..._
 
     apt-get install build-essential zlib1g-dev libssl-dev libreadline5-dev -y
-    
     wget http://www.rubyenterpriseedition.com/ruby-enterprise-1.8.6-20090610.tar.gz
     tar xvfz ruby-enterprise-1.8.6-20090610.tar.gz
     rm ruby-enterprise-1.8.6-20090610.tar.gz
@@ -82,15 +93,11 @@ Installing Nginx
 
     apt-get install nginx -y
     
-**Optional:** Test the web server and remove the default site
+####Test the web server and remove the default site
 
     /etc/init.d/nginx start
-
     curl http://localhost
-
     rm /etc/nginx/sites-enabled/default
-    /etc/init.d/nginx reload
-
     /etc/init.d/nginx stop
 
 Installing the Passenger Nginx module
@@ -135,8 +142,9 @@ Installing the Passenger Nginx module
         
     vi /etc/init.d/nginx
   
-    # Change the DAEMON path
+    ...
     DAEMON=/opt/nginx/sbin/nginx
+    ...
   
 ####Link the Nginx configuration to the apt-get confguration
     
