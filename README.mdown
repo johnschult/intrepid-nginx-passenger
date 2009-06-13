@@ -120,6 +120,10 @@ _Note that this also installs Rails and a bunch of other gems..._
 Installing Nginx
 ----------------
 
+What happens here is that Nginx gets installed several times. The end result is the Ubuntu distribution
+`nginx` and it's support files are used with the binary from the Passenger module installation. This
+approach has the advantage of using the site management directories as well as the `init.d` support.
+
 ####Install the `nginx` package
 
     apt-get install nginx -y
