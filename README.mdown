@@ -5,18 +5,18 @@ Ubuntu Intrepid (8.10) with Nginx and Passenger
 Updating the server
 -------------------
 
-Update/Upgrade the server packages
+<input type='checkbox'/> Update/Upgrade the server packages
 
     apt-get update
     apt-get upgrade
 
-Configure the timezone and update the time
+<input type='checkbox'/> Configure the timezone and update the time
 
     dpkg-reconfigure tzdata
     apt-get install ntp -y
     ntpdate ntp.ubuntu.com
 
-Edit SSH daemon configuration
+<input type='checkbox'/> Edit SSH daemon configuration
 
     vi /etc/ssh/sshd_config
 
@@ -29,11 +29,11 @@ Edit SSH daemon configuration
 Setting up a deployment user
 ----------------------------
 
-Add the `deploy` user. You should use this user in your Capistrano recipes.
+<input type='checkbox'/> Add the `deploy` user. You should use this user in your Capistrano recipes.
 
     adduser deploy
 
-Enable the `sudo` group
+<input type='checkbox'/> Enable the `sudo` group
 
     visudo
     
@@ -41,21 +41,21 @@ Enable the `sudo` group
     %sudo ALL=NOPASSWD: ALL
     ...
 
-Add the `deploy` user to the `sudo` group
+<input type='checkbox'/> Add the `deploy` user to the `sudo` group
 
     usermod -G sudo -a deploy
 
-Create the `.ssh` directory for the `deploy` user
+<input type='checkbox'/> Create the `.ssh` directory for the `deploy` user
 
     su - -c "mkdir .ssh;chmod 700 .ssh" deploy
 
-Add a SSH public key to the `deploy` user. This is a public key from a person that needs to deploy
+<input type='checkbox'/> Add a SSH public key to the `deploy` user. This is a public key from a person that needs to deploy
 applications. Add as many as you need.
 
     su - -c "vi .ssh/authorized_keys" deploy
     su - -c "chmod 600 .ssh/authorized_keys" deploy
     
-Create the `apps` directory for the `deploy` user. This is the root directory to use for deploying
+<input type='checkbox'/> Create the `apps` directory for the `deploy` user. This is the root directory to use for deploying
 your applications.
     
     su - -c "mkdir ~/apps" deploy
@@ -63,14 +63,14 @@ your applications.
 Installing Git
 --------------
 
-Install the `git-core` package
+<input type='checkbox'/> Install the `git-core` package
 
     apt-get install git-core -y
 
 Installing MySQL
 ----------------
 
-Install the `mysql-server` and `libmysqlclient15-dev` packages
+<input type='checkbox'/> Install the `mysql-server` and `libmysqlclient15-dev` packages
 
     apt-get install mysql-server libmysqlclient15-dev -y
     
@@ -79,14 +79,17 @@ Installing Ruby Enterprise Edition and Passenger
 
 _Note that this also installs Rails and a bunch of other gems..._
 
+<input type='checkbox'/> Download and install `ruby`
+
     apt-get install build-essential zlib1g-dev libssl-dev libreadline5-dev -y
     wget http://www.rubyenterpriseedition.com/ruby-enterprise-1.8.6-20090610.tar.gz
     tar xvfz ruby-enterprise-1.8.6-20090610.tar.gz
     rm ruby-enterprise-1.8.6-20090610.tar.gz
     cd ruby-enterprise-1.8.6-20090610/
     ./installer
+    rm -rf ruby-enterprise-1.8.6-20090610
 
-Create links to the new binaries in the system path. This avoids issues with `sudo` secure paths.
+<input type='checkbox'/> Create links to the new binaries in the system path. This avoids issues with `sudo` secure paths.
   
     ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/erb /usr/local/bin/erb
     ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/gem /usr/local/bin/gem
@@ -97,7 +100,7 @@ Create links to the new binaries in the system path. This avoids issues with `su
     ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/ri /usr/local/bin/ri
     ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/ruby /usr/local/bin/ruby
 
-Tell `gem` not to create documentation, ever.
+<input type='checkbox'/> Tell `gem` not to create documentation, ever.
 
     vi /root/.gemrc
     
@@ -107,7 +110,7 @@ Tell `gem` not to create documentation, ever.
     - http://gems.github.com
     gem: --no-ri --no-rdoc
 
-Copy the `.gemrc` file for the `deploy` user
+<input type='checkbox'/> Copy the `.gemrc` file for the `deploy` user
     
     cp /root/.gemrc ~deploy/.gemrc
     chown deploy:deploy ~deploy/.gemrc
@@ -117,7 +120,7 @@ Installing Nginx
 
     apt-get install nginx -y
     
-Test the web server and remove the `default` site
+<input type='checkbox'/> Test the web server and remove the `default` site
 
     /etc/init.d/nginx start
     curl http://localhost
@@ -127,33 +130,33 @@ Test the web server and remove the `default` site
 Installing the Passenger Nginx module
 -------------------------------------
 
-Start the Passenger Nginx module installation
+<input type='checkbox'/> Start the Passenger Nginx module installation
 
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-Select option 1 and download/compile/install Nginx and wait for it to finish
+<input type='checkbox'/> Select option 1 and download/compile/install Nginx and wait for it to finish
     
     ...
     Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
 
-Start the Passenger Nginx module installation (again)
+<input type='checkbox'/> Start the Passenger Nginx module installation (again)
 
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-Select option 2 to customize Nginx install. When installation script ask, "Where is your Nginx source code located?" Enter:
+<input type='checkbox'/> Select option 2 to customize Nginx install. When installation script ask, "Where is your Nginx source code located?" Enter:
 
     /tmp/nginx-0.6.36
     
-On, extra arguments to pass to configure script add
+<input type='checkbox'/> On, extra arguments to pass to configure script add
 
     --with-http_ssl_module
 
-Wait for the Passenger Nginx module installation to finish
+<input type='checkbox'/> Wait for the Passenger Nginx module installation to finish
 
     ...
     Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
     
-Edit the Nginx configuration from the package install
+<input type='checkbox'/> Edit the Nginx configuration from the package install
 
     vi /etc/nginx/nginx.conf
         
@@ -164,7 +167,7 @@ Edit the Nginx configuration from the package install
       ...
     }
 
-Edit the Nginx `init.d` script from the package install
+<input type='checkbox'/> Edit the Nginx `init.d` script from the package install
         
     vi /etc/init.d/nginx
   
@@ -172,12 +175,12 @@ Edit the Nginx `init.d` script from the package install
     DAEMON=/opt/nginx/sbin/nginx
     ...
   
-Link the Passenger Nginx configuration to the Nginx package confguration
+<input type='checkbox'/> Link the Passenger Nginx configuration to the Nginx package confguration
     
     rm /opt/nginx/conf/nginx.conf
     ln -s /etc/nginx/nginx.conf /opt/nginx/conf/nginx.conf
 
-Start Nginx
+<input type='checkbox'/> Start Nginx
 
     /etc/init.d/nginx start
 
@@ -194,7 +197,7 @@ Deploying a Rack application
       passenger_enabled on;
     }
 
-Save the file and reload Nginx
+<input type='checkbox'/> Save the file and reload Nginx
     
     /etc/init.d/nginx reload
     
