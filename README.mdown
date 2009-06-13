@@ -1,0 +1,165 @@
+Server build Ubuntu 8.10 (Intrepid)
+-----------------------------------
+
+####Update/Upgrade the server installation
+
+    apt-get update
+    apt-get upgrade
+
+####Configure the timezone and update the time
+
+    sudo dpkg-reconfigure tzdata
+    sudo apt-get install ntp -y
+    sudo ntpdate ntp.ubuntu.com
+
+####Add deploy user
+
+    adduser deploy
+
+####Enable sudo group
+
+    visudo
+    
+    %sudo ALL=NOPASSWD: ALL
+
+####Add deploy user to sudo group
+
+    usermod -G sudo -a deploy
+
+####Edit SSH daemon configuration
+
+    vi /etc/ssh/sshd_config
+    
+    PermitRootLogin no
+    PasswordAuthentication no
+
+####Create the .ssh directory for the deploy user
+
+    su - -c "mkdir .ssh;chmod 700 .ssh" deploy
+
+####Add a SSH public key to the deploy user
+
+    su - -c "vi .ssh/authorized_keys" deploy
+    su - -c "chmod 600 .ssh/authorized_keys" deploy
+    
+####Create the apps directory for the deploy user
+    
+    su - -c "mkdir apps" deploy
+
+Install Git
+-----------
+
+####Install the git-core package
+
+    apt-get install git-core -y
+
+Install MySQL
+-------------
+
+####Install the mysql-server and dev packages
+
+    apt-get install mysql-server libmysqlclient15-dev -y
+    
+Install Ruby Enterprise Edition and Passenger
+---------------------------------------------
+
+_Note that this also installs Rails and a bunch of other gems..._
+
+    apt-get install build-essential zlib1g-dev libssl-dev libreadline5-dev -y
+    
+    wget http://www.rubyenterpriseedition.com/ruby-enterprise-1.8.6-20090610.tar.gz
+    tar xvfz ruby-enterprise-1.8.6-20090610.tar.gz
+    rm ruby-enterprise-1.8.6-20090610.tar.gz
+    cd ruby-enterprise-1.8.6-20090610/
+    ./installer
+
+####Add Ruby to the system path
+
+    echo "export PATH=/opt/ruby-enterprise-1.8.6-20090201/bin:$PATH" >> /etc/profile && . /etc/profile
+
+Install Nginx
+-----------------------
+
+    apt-get install nginx -y
+    
+**Optional:** Test the web server and remove the default site
+
+    /etc/init.d/nginx start
+
+    curl http://localhost
+
+    rm /etc/nginx/sites-enabled/default
+    /etc/init.d/nginx reload
+
+    /etc/init.d/nginx stop
+
+Install the Passenger Nginx module
+----------------------------------
+
+####Start the Passenger Nginx module installation
+    /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
+
+####Select option 1 and download/compile/install Nginx and wait for it to finish
+    
+    ...
+    Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
+
+####Start the Passenger Nginx module installation (again)
+    /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
+
+####Select option 2 to customize Nginx install. When installation script ask, "Where is your Nginx source code located?" Enter:
+
+    /tmp/nginx-0.6.36
+    
+####On, extra arguments to pass to configure script add
+
+    --with-http_ssl_module
+
+####Wait for the Passenger Nginx module installation to finish
+
+    ...
+    Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
+    
+####Edit the Nginx configuration from the apt-get install
+
+    vi /etc/nginx/nginx.conf
+        
+    http {
+      ...
+      passenger_root /opt/ruby-enterprise-1.8.6-20090610/lib/ruby/gems/1.8/gems/passenger-2.2.2;
+      passenger_ruby /opt/ruby-enterprise-1.8.6-20090610/bin/ruby;
+      ...
+    }
+
+####Edit the Nginx init.d script from the apt-get install
+        
+    vi /etc/init.d/nginx
+  
+    # Change the DAEMON path
+    DAEMON=/opt/nginx/sbin/nginx
+  
+####Link the Nginx configuration to the apt-get confguration
+    
+    rm /opt/nginx/conf/nginx.conf
+    ln -s /etc/nginx/nginx.conf /opt/nginx/conf/nginx.conf
+
+####Start Nginx
+
+    /etc/init.d/nginx start
+
+Deploying a Rack application
+----------------------------
+
+    vi /etc/nginx/sites-available/001-www.yourhost.com
+
+    # your application configuration
+    server {
+      listen 80;
+      server_name www.yourhost.com;
+      root /home/deploy/apps/yourapp/public;   # <--- be sure to point to 'public'!
+      passenger_enabled on;
+    }
+
+####Save the file and reload Nginx
+    
+    /etc/init.d/nginx reload
