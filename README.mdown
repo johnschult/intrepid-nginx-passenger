@@ -1,4 +1,4 @@
-Server build Ubuntu 8.10 (Intrepid)
+Changes to Ubuntu 8.10 (Intrepid)
 -----------------------------------
 
 ####Update/Upgrade the server installation
@@ -46,22 +46,22 @@ Server build Ubuntu 8.10 (Intrepid)
     
     su - -c "mkdir apps" deploy
 
-Install Git
------------
+Installing Git
+--------------
 
 ####Install the git-core package
 
     apt-get install git-core -y
 
-Install MySQL
--------------
+Installing MySQL
+----------------
 
 ####Install the mysql-server and dev packages
 
     apt-get install mysql-server libmysqlclient15-dev -y
     
-Install Ruby Enterprise Edition and Passenger
----------------------------------------------
+Installing Ruby Enterprise Edition and Passenger
+------------------------------------------------
 
 _Note that this also installs Rails and a bunch of other gems..._
 
@@ -77,8 +77,8 @@ _Note that this also installs Rails and a bunch of other gems..._
 
     echo "export PATH=/opt/ruby-enterprise-1.8.6-20090201/bin:$PATH" >> /etc/profile && . /etc/profile
 
-Install Nginx
------------------------
+Installing Nginx
+----------------
 
     apt-get install nginx -y
     
@@ -93,8 +93,8 @@ Install Nginx
 
     /etc/init.d/nginx stop
 
-Install the Passenger Nginx module
-----------------------------------
+Installing the Passenger Nginx module
+-------------------------------------
 
 ####Start the Passenger Nginx module installation
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
@@ -163,3 +163,9 @@ Deploying a Rack application
 ####Save the file and reload Nginx
     
     /etc/init.d/nginx reload
+    
+More Resources
+--------------
+[Phusion Passenger users guide, Nginx version](http://www.modrails.com/documentation/Users%20guide%20Nginx.html)
+
+[Rackup specifications for various web frameworks](http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_rackup_specifications_for_various_web_frameworks)
