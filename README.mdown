@@ -204,6 +204,8 @@ Installing the Passenger Nginx module
 Deploying a Rack application
 ----------------------------
 
+For a whole bunch of info on using Rack with Passenger, take a look at [the documentation](http://tr.im/oAhX).
+
 ####Create the new virtual configuration
 
     vi /etc/nginx/sites-available/www.yourhost.com
@@ -223,9 +225,14 @@ Deploying a Rack application
 ####Save the file and reload Nginx
     
     /etc/init.d/nginx reload
-    
+
+Installing SSL for Nginx
+------------------------
+
+If you need SSL enabled for an application, follow [this easy article](http://tr.im/oAi7) at Slicehost.
+It walks through creating a self-signed certificate as well as setting Nginx up to use it.
+
 More Resources
 --------------
-[Phusion Passenger users guide, Nginx version](http://www.modrails.com/documentation/Users%20guide%20Nginx.html)
+[Phusion Passenger users guide, Nginx version](http://tr.im/oAhL)
 
-[Rackup specifications for various web frameworks](http://www.modrails.com/documentation/Users%20guide%20Nginx.html#_rackup_specifications_for_various_web_frameworks)
