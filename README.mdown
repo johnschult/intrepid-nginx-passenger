@@ -222,7 +222,7 @@ For a whole bunch of info on using Rack with Passenger, take a look at [the docu
 
     ln -s /etc/nginx/sites-available/www.yourhost.com /etc/nginx/sites-enabled/001-www.yourhost.com
 
-####Save the file and reload Nginx
+####Reload the Nginx configuration
     
     /etc/init.d/nginx reload
 
