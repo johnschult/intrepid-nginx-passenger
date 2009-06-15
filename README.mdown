@@ -47,6 +47,7 @@ Setting up a deployment user
 ####Create the `apps` directory for the `deploy` user. This is the root directory to use for deploying your applications.
     
     su - -c "mkdir ~/apps" deploy
+    chmod 755 ~deploy/apps
 
 ###Optional
 If the `deploy` user will need to execute `sudo` using Capistrano or otherwise, do the following:
@@ -91,6 +92,7 @@ _Note that this also installs Rails and a bunch of other gems..._
     rm ruby-enterprise-1.8.6-20090610.tar.gz
     cd ruby-enterprise-1.8.6-20090610/
     ./installer
+    cd ..
     rm -rf ruby-enterprise-1.8.6-20090610
 
 ####Create links to the new binaries in the system path. This avoids issues with `sudo` secure paths.
@@ -119,6 +121,11 @@ _Note that this also installs Rails and a bunch of other gems..._
     cp /root/.gemrc ~deploy/.gemrc
     chown deploy:deploy ~deploy/.gemrc
 
+####Install the `thor` gem
+  
+    gem install thor
+    ln -s /opt/ruby-enterprise-1.8.6-20090610/bin/thor /usr/local/bin/thor
+    
 Installing Nginx
 ----------------
 
