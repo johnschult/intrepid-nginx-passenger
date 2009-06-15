@@ -133,9 +133,9 @@ What happens here is that Nginx gets installed several times. The end result is 
 `nginx` and it's support files are used with the binary from the Passenger module installation. This
 approach has the advantage of using the site management directories as well as the `init.d` support.
 
-####Install the `nginx` package
+####Install the `nginx` and the `libpcre3-dev` package
 
-    apt-get install nginx -y
+    apt-get install nginx libpcre3-dev -y
     
 ####Test the web server and remove the `default` site
 
@@ -151,7 +151,7 @@ Installing the Passenger Nginx module
 
     /opt/ruby-enterprise-1.8.6-20090610/bin/passenger-install-nginx-module
 
-####Select option 1, download/compile/install Nginx and wait for it to finish
+####Select option 1, hit enter at the prompts and wait for it to finish
     
     ...
     Phusion Passenger is a trademark of Hongli Lai & Ninh Bui.
